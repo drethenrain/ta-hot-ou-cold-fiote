@@ -22,6 +22,7 @@ def search_products(item, page_size=None):
             'id': id,
             'name': name,
             'price': price,
+            'link': f'https://www.kabum.com.br/produto/{id}',
             'images': images
         })
 
