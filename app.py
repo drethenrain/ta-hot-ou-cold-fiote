@@ -1,30 +1,32 @@
-from flask import Flask, request, jsonify
+from sanic import Sanic
+from sanic.response import json
+
 import terabyte
 import kabum
 
-app = Flask(__name__)
+app = Sanic(__name__)
 
 
 @app.route('/terabyte/search', methods=['GET'])
-def search_terabyte():
+def search_terabyte(request):
     arg = request.args.get('product')
 
     if len(arg) < 3:
         return {'error': 'Provide a valid product name. Must be more than 3 characters'}
 
-    return jsonify(terabyte.search_products(arg))
+    return json(terabyte.search_products(arg))
 
 
 @app.route('/kabum/search', methods=['GET'])
-def search_kabum():
+def search_kabum(request):
     product = request.args.get('product')
     page_size = request.args.get('page_size')
 
     if len(product) < 3:
         return {'error': 'Provide a valid product name. Must be more than 3 characters'}
 
-    return jsonify(kabum.search_products(product, page_size))
+    return json(kabum.search_products(product, page_size))
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3333)
+    app.run(host='0.0.0.0', port=3333, auto_reload=True)
