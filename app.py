@@ -28,5 +28,10 @@ def search_kabum(request):
     return json(kabum.search_products(product, page_size))
 
 
+@app.route('/kabum/product/<id>', methods=['GET'])
+def product_kabum(request, id):
+    return json(kabum.product_details(id))
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3333, auto_reload=True)
