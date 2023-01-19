@@ -34,4 +34,4 @@ def product_kabum(request, id):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3333, auto_reload=True)
+    app.run(host='0.0.0.0', port=10000, auto_reload=True)
