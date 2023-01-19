@@ -1,8 +1,5 @@
 import cloudscraper
 from operator import itemgetter
-from html import unescape
-from re import sub
-
 
 base_url = 'https://servicespub.prod.api.aws.grupokabum.com.br'
 requester = cloudscraper.create_scraper()
@@ -40,15 +37,11 @@ def product_details(id):
         'title', 'price', 'images', 'old_price', 'manufacturer', 'html', 'payment_methods_default',
         'available', 'discount_percentage', 'price_with_discount', 'stock')(res)
 
-    description = sub('(<[^>]+>)', '', description)
-    description = unescape(description)
-    description = description.replace('\xa0', ' \n')
-
     # 🥀
     result = dict({'id': id, 'name': name, 'price': price, 'old_price': old_price,
                    'discount_percentage': discount_percentage, 'price_with_discount': price_with_discount,
                    'available': available, 'stock': stock, 'manufacturer': manufacturer,
-                   'link': f'https://www.kabum.com.br/produto/{id}', 'description': description,
+                   'link': f'https://www.kabum.com.br/produto/{id}', 'description_html': description,
                    'images': images, 'payment_methods': payment_methods})
 
     return result
