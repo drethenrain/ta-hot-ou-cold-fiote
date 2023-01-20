@@ -5,10 +5,10 @@ base_url = 'https://servicespub.prod.api.aws.grupokabum.com.br'
 requester = cloudscraper.create_scraper()
 
 
-def search_products(item, page_size=None):
-    page_size = page_size or 30
+def search_products(item, page_limit=None):
+    page_limit = page_limit or 30
     res = requester.get(
-        f'{base_url}/catalog/v2/products?query={item}&page_size={page_size}')
+        f'{base_url}/catalog/v2/products?query={item}&page_size={page_limit}')
     res = res.json()['data']
 
     products = []

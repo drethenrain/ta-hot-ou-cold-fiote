@@ -1,12 +1,13 @@
 import re
 import cloudscraper
+from cloudscraper.exceptions import CloudflareChallengeError
 from bs4 import BeautifulSoup as beauty
+import time
 
 result = []
 
 
-def search_products(item):
-    scraper = cloudscraper.create_scraper()
+def scrap_info(scraper, item):
     info = scraper.get(
         f'https://www.terabyteshop.com.br/busca?str={item}').text
     soup = beauty(info, 'html.parser')
@@ -30,4 +31,20 @@ def search_products(item):
             'image': image
         })
 
+
+def search_products(item):
+    try:
+        scraper = cloudscraper.create_scraper()
+        scrap_info(scraper=scraper, item=item)
+    except CloudflareChallengeError:
+        for index in range(1, 11):
+            # lento pra luto
+            time.sleep(2)
+            scraper = cloudscraper.create_scraper()
+            try:
+                scrap_info(scraper=scraper, item=item)
+            except CloudflareChallengeError:
+                return dict({
+                    'error': 'deu ruim filho ai tu foi de comes e bebes tlgd'
+                })
     return result
